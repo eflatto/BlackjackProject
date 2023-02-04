@@ -30,8 +30,12 @@ public class BlackjackApp {
 		dealer.clear();
 		blackJackHand.clear();
 		do {
-			System.out.println("Play again? Y/N");
+			System.out.println("Press Y to play again");
 			System.out.println("the are "+deckOfCards.size()+" cards left");
+			if(deckOfCards.size()== 0) {
+				System.out.println("Sorry please start over ran out of cards");
+				System.exit(0);
+			}
 			choice = sc.next();
 			if (choice.equalsIgnoreCase("Y")) {
 				newHand();

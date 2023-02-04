@@ -5,46 +5,25 @@ import java.util.Scanner;
 import com.skilldistillery.blackjack.entities.BlackjackDealerHand;
 import com.skilldistillery.blackjack.entities.BlackjackHand;
 import com.skilldistillery.blackjack.entities.Card;
+import com.skilldistillery.blackjack.entities.Dealer;
 import com.skilldistillery.blackjack.entities.Deck;
+import com.skilldistillery.blackjack.entities.Player;
 
 public class BlackjackApp {
 
 	private Scanner sc = new Scanner(System.in);
 	private Deck deckOfCards = new Deck();
-	private BlackjackHand blackJackHand = new BlackjackHand();
-	private BlackjackDealerHand dealer = new BlackjackDealerHand();
+	private Player player = new Player();
+	private Dealer dealer = new Dealer();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BlackjackApp blackJack = new BlackjackApp();
 		blackJack.launch();
-
 	}
 
 	public void launch() {
 		startMenu();
-	}
-
-	public void playAgain() {
-		String choice;
-		dealer.clear();
-		blackJackHand.clear();
-		do {
-			System.out.println("Press Y to play again");
-			System.out.println("the are "+deckOfCards.size()+" cards left");
-			if(deckOfCards.size()== 0) {
-				System.out.println("Sorry please start over ran out of cards");
-				System.exit(0);
-			}
-			choice = sc.next();
-			if (choice.equalsIgnoreCase("Y")) {
-				newHand();
-			}
-			else {
-				System.out.println("Goodbye..");
-				System.exit(0);
-			}
-		} while (choice.equalsIgnoreCase("Y"));
 	}
 
 	public void startMenu() {
@@ -57,123 +36,121 @@ public class BlackjackApp {
 		newHand();
 	}
 
+	public void playAgain() {
+		String choice;
+		dealer.getHand().clear();
+		player.getHand().clear();
+		do {
+			System.out.println("Press Y to play again");
+			System.out.println("the are " + deckOfCards.size() + " cards left");
+			if (deckOfCards.size() == 0) {
+				System.out.println("Sorry please start over ran out of cards");
+				System.exit(0);
+			}
+			choice = sc.next();
+			if (choice.equalsIgnoreCase("Y")) {
+				newHand();
+			} else {
+				System.out.println("Goodbye..");
+				System.exit(0);
+			}
+		} while (choice.equalsIgnoreCase("Y"));
+	}
+
 	public void hitOrStay() {
 		System.out.println("Would you like to stay or hit?  ");
 		System.out.print("Enter 0 to stay or 1 to hit: ");
 		int choice = sc.nextInt();
 		System.out.println();
-		if (blackJackHand.getHandValue() > 21) {
+		if (player.getHand().getHandValue() > 21) {
 			System.out.println("You busted !");
 		}
-		if (choice == 1 && blackJackHand.getHandValue() < 21) {
-			dealPlayerCard();
-			showPlayerHand();
-			if (blackJackHand.getHandValue() < 21)
+		if (choice == 1 && player.getHand().getHandValue() < 21) {
+			player.dealPlayerCard(deckOfCards);
+			player.showHand();
+			if (player.getHand().getHandValue() < 21)
 				hitOrStay();
 		} else if (choice == 0) {
 			dealerPlays();
 		}
 	}
 
-	public void dealPlayerCard() {
-		Card card = deckOfCards.dealCard();
-		blackJackHand.addCard(card);
-		System.out.println("Dealer deals you " + card);
-
-	}
-
-	public void dealDealerHiddenCard() {
-		Card card = deckOfCards.dealCard();
-		dealer.addCard(card);
-
-	}
-
-	public void dealDealerCard() {
-		Card card = deckOfCards.dealCard();
-		dealer.addCard(card);
-		System.out.println("Dealer pulls " + card + "\n");
-
-	}
-
 	public void newHand() {
 		boolean bust = false;
-		
-
 		System.out.println("Dealer will now begin dealing cards...\n");
 		delayGame(2000);
-		dealPlayerCard();
+		player.dealPlayerCard(deckOfCards);
 		System.out.println();
 
 		delayGame(2000);
 		System.out.println("Dealer Face down card\n");
-		dealDealerHiddenCard();
+		dealer.dealDealerHiddenCard(deckOfCards);
 
 		delayGame(2000);
-		dealPlayerCard();
+		player.dealPlayerCard(deckOfCards);
 		System.out.println("");
 
 		delayGame(2000);
-		dealDealerCard();
-		dealer.getShownCardValue();
+		dealer.dealDealerCard(deckOfCards);
+		dealer.getShownCardVal();
 		delayGame(2000);
-		showPlayerHand();
+		player.showHand();
 		delayGame(2000);
-		if (blackJackHand.getHandValue() == 21) {
-			System.out.println("nice job! you got a 21 !");
-
-			System.exit(0);
+		if (player.getHand().getHandValue() == 21) {
+			System.out.println("nice job! you got a BlackJack !");
+			playAgain();
 		}
-		while (blackJackHand.getHandValue() < 21) {
+		while (player.getHand().getHandValue() < 21) {
 			hitOrStay();
-			if (blackJackHand.getHandValue() > 21)
+			if (player.getHand().getHandValue() > 21)
 				System.out.println("You busted!");
-			showDealerHand();
+			dealer.showDealerHand();
 			playAgain();
 		}
-		if (blackJackHand.getHandValue() == 21)
+		if (player.getHand().getHandValue() == 21)
 			System.out.println("You got a 21 you win!");
-			playAgain();
+		playAgain();
 	}
 
 	public void dealerPlays() {
 		boolean dealerBusts = false;
 		System.out.println("Dealer turns hidden card...\n");
-		dealer.getHiddenCardValue();
 		delayGame(3000);
-		showDealerHand();
-		while (dealer.getHandValue() < 17) {
-			dealDealerCard();
-			showDealerHand();
+		dealer.getHiddenCard();
+		dealer.showDealerHand();
+		while (dealer.getTotalCardVal() < 17) {
+			dealer.dealDealerCard(deckOfCards);
 			delayGame(3000);
-			if (dealer.getHandValue() > 21 ) {
+			dealer.showDealerHand();
+			delayGame(3000);
+			if (dealer.getTotalCardVal() > 21) {
 				System.out.println("Dealer busts !");
 				System.out.println("You win");
-				dealerBusts=true;
+				dealerBusts = true;
 				playAgain();
-				if (dealer.getHandValue() == 21) {
+				if (dealer.getTotalCardVal() == 21) {
 					System.out.println("Dealer has 21 !");
-					showDealerHand();
+					dealer.showDealerHand();
 					playAgain();
 				}
 
 			}
 		}
-		if (dealer.getHandValue() > blackJackHand.getHandValue() && dealerBusts == false ) {
+		if (dealer.getTotalCardVal() > player.getHand().getHandValue() && dealerBusts == false) {
 			System.out.println("You lose !");
-			showPlayerHand();
+			player.showHand();
 			playAgain();
 		}
-		if (dealer.getHandValue() < blackJackHand.getHandValue() || dealerBusts == true ) {
+		if (dealer.getTotalCardVal() < player.getHand().getHandValue() || dealerBusts == true) {
 			System.out.println("You win !");
-			showPlayerHand();
+			player.showHand();
 			playAgain();
 		}
-		if (dealer.getHandValue() == blackJackHand.getHandValue()) {
+		if (dealer.getTotalCardVal() == player.getHand().getHandValue()) {
 			System.out.println("You push !");
-			showPlayerHand();
+			player.showHand();
 			playAgain();
 		}
-
 
 	}
 
@@ -185,13 +162,4 @@ public class BlackjackApp {
 			e.printStackTrace();
 		}
 	}
-
-	public void showPlayerHand() {
-		System.out.println("Your hand: " + blackJackHand + "\n");
-	}
-
-	public void showDealerHand() {
-		System.out.println("Dealer has " + dealer + "\n");
-	}
-
 }

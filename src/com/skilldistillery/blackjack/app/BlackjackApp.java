@@ -1,11 +1,7 @@
 package com.skilldistillery.blackjack.app;
 
 import java.util.Scanner;
-
-import com.skilldistillery.blackjack.entities.BlackjackDealerHand;
-import com.skilldistillery.blackjack.entities.BlackjackHand;
-import com.skilldistillery.blackjack.entities.Card;
-import com.skilldistillery.blackjack.entities.Dealer;
+import com.skilldistillery.blackjack.entities.BlackjackDealer;
 import com.skilldistillery.blackjack.entities.Deck;
 import com.skilldistillery.blackjack.entities.Player;
 
@@ -13,10 +9,8 @@ public class BlackjackApp {
 
 	private Scanner sc = new Scanner(System.in);
 	private Deck deckOfCards = new Deck();
-	// private BlackjackHand blackJackHand = new BlackjackHand();
-	//private BlackjackDealerHand dealer = new BlackjackDealerHand();
 	private Player player = new Player();
-	private Dealer dealer = new Dealer();
+	private BlackjackDealer dealer = new BlackjackDealer();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -44,7 +38,8 @@ public class BlackjackApp {
 		player.getHand().clear();
 		do {
 			System.out.println("Press Y to play again");
-			System.out.println("the are " + deckOfCards.size() + " cards left");
+			System.out.println("Or hit any other key to exit");
+			System.out.println("there are " + deckOfCards.size() + " cards left");
 			if (deckOfCards.size() == 0) {
 				System.out.println("Sorry please start over ran out of cards");
 				System.exit(0);
@@ -77,19 +72,6 @@ public class BlackjackApp {
 		}
 	}
 
-//	public void dealDealerHiddenCard() {
-//		Card card = deckOfCards.dealCard();
-//		dealer.addCard(card);
-//
-//	}
-
-//	public void dealDealerCard() {
-//		Card card = deckOfCards.dealCard();
-//		dealer.addCard(card);
-//		System.out.println("Dealer pulls " + card + "\n");
-//
-//	}
-//
 	public void newHand() {
 		boolean bust = false;
 
@@ -178,9 +160,4 @@ public class BlackjackApp {
 			e.printStackTrace();
 		}
 	}
-
-
-
-
-
 }

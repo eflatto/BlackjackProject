@@ -24,7 +24,7 @@ public class Player {
 	public Hand getHand() {
 		return hand;
 	}
-//
+
 	public void setHand(Hand hand) {
 		this.hand = hand;
 	}

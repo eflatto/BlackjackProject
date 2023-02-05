@@ -13,6 +13,8 @@ public class BlackjackApp {
 
 	private Scanner sc = new Scanner(System.in);
 	private Deck deckOfCards = new Deck();
+	// private BlackjackHand blackJackHand = new BlackjackHand();
+	//private BlackjackDealerHand dealer = new BlackjackDealerHand();
 	private Player player = new Player();
 	private Dealer dealer = new Dealer();
 
@@ -75,8 +77,22 @@ public class BlackjackApp {
 		}
 	}
 
+//	public void dealDealerHiddenCard() {
+//		Card card = deckOfCards.dealCard();
+//		dealer.addCard(card);
+//
+//	}
+
+//	public void dealDealerCard() {
+//		Card card = deckOfCards.dealCard();
+//		dealer.addCard(card);
+//		System.out.println("Dealer pulls " + card + "\n");
+//
+//	}
+//
 	public void newHand() {
 		boolean bust = false;
+
 		System.out.println("Dealer will now begin dealing cards...\n");
 		delayGame(2000);
 		player.dealPlayerCard(deckOfCards);
@@ -162,4 +178,9 @@ public class BlackjackApp {
 			e.printStackTrace();
 		}
 	}
+
+
+
+
+
 }

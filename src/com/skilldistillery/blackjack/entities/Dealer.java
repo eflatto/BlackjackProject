@@ -45,8 +45,6 @@ public class Dealer {
 		return  hand + "";
 	}
 	
-	
-	
 
 	
 }

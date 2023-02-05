@@ -7,6 +7,7 @@ import com.skilldistillery.blackjack.entities.Player;
 
 public class BlackjackApp {
 
+	// initializing all the objects needed to play the game
 	private Scanner sc = new Scanner(System.in);
 	private Deck deckOfCards = new Deck();
 	private Player player = new Player();
@@ -15,6 +16,7 @@ public class BlackjackApp {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BlackjackApp blackJack = new BlackjackApp();
+		// launch blackjack app
 		blackJack.launch();
 	}
 
@@ -32,16 +34,20 @@ public class BlackjackApp {
 		newHand();
 	}
 
+	// choose to play again or exit the game
 	public void playAgain() {
 		String choice;
+		// Clear the dealer's and player's hands every new round
 		dealer.getHand().clear();
 		player.getHand().clear();
 		do {
+			// Print the number of cards left in the deck
 			System.out.println("there are " + deckOfCards.size() + " cards left");
 			System.out.println("Press Y to play again");
 			System.out.print("Or hit any other key to exit: ");
 			System.out.println("\n==============================================================================");
-			
+
+			// If the deck is empty, tell the player to start over and exit the game
 			if (deckOfCards.size() == 0) {
 				System.out.println("Sorry please start over ran out of cards");
 				System.exit(0);
@@ -56,30 +62,41 @@ public class BlackjackApp {
 		} while (choice.equalsIgnoreCase("Y"));
 	}
 
+	// allow the player to choose to hit or stay
 	public void hitOrStay() {
 		System.out.println("Would you like to stay or hit?  ");
 		System.out.print("Enter 0 to stay or 1 to hit: ");
 		int choice = sc.nextInt();
 		System.out.println();
+		// If the player's hand value is over 21, print "You busted!"
 		if (player.getHand().getHandValue() > 21) {
 			System.out.println("You busted !");
 		}
+		// If the player chose to hit and their hand value is under 21,
+		// deal them another card and show their hand
 		if (choice == 1 && player.getHand().getHandValue() < 21) {
-			player.dealPlayerCard(deckOfCards);
+			player.recieveCard(deckOfCards);
 			player.showHand();
+			// If the player's hand value is still under 21,
+			// allow them to hit or stay again
 			if (player.getHand().getHandValue() < 21)
 				hitOrStay();
+
+			// If the player chose to stay, have the
+			// dealer play their hand
 		} else if (choice == 0) {
 			dealerPlays();
 		}
 	}
-
+	//begins a new hand of BlackJack
 	public void newHand() {
 		boolean bust = false;
 
 		System.out.println("Dealer will now begin dealing cards...\n");
+		// pause the game for 2 seconds
 		delayGame(2000);
-		player.dealPlayerCard(deckOfCards);
+		// deal a card to the player
+		player.recieveCard(deckOfCards);
 		System.out.println();
 
 		delayGame(2000);
@@ -87,7 +104,7 @@ public class BlackjackApp {
 		dealer.dealDealerHiddenCard(deckOfCards);
 
 		delayGame(2000);
-		player.dealPlayerCard(deckOfCards);
+		player.recieveCard(deckOfCards);
 		System.out.println("");
 
 		delayGame(2000);
@@ -153,7 +170,7 @@ public class BlackjackApp {
 		}
 
 	}
-
+	//pause the game for a few seconds method
 	public void delayGame(int milliseconds) {
 		try {
 			Thread.sleep(milliseconds);

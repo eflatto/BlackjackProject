@@ -10,12 +10,13 @@ public enum Rank {
 	Rank(int value){
 		this.value=value;
 	}
+	public int setAceToOne() {
+		return ACE.value=1;
+	}
 
 	public int getValue() {
 		return value;
 	}
 
-	
-	
 	
 }

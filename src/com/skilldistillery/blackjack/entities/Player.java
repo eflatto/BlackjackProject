@@ -43,4 +43,10 @@ public class Player {
 		hand.addCard(card);
 		System.out.println("Dealer deals you " + card + " " + card.getRank().getValue());
 	}
+
+	@Override
+	public String toString() {
+		return "" + name ;
+	}
+	
 }

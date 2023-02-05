@@ -7,6 +7,7 @@ public class BlackjackDealerHand extends Hand {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	@Override
 	public int getHandValue() {

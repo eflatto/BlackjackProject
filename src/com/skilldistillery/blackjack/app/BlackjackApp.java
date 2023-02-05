@@ -37,9 +37,11 @@ public class BlackjackApp {
 		dealer.getHand().clear();
 		player.getHand().clear();
 		do {
-			System.out.println("Press Y to play again");
-			System.out.println("Or hit any other key to exit");
 			System.out.println("there are " + deckOfCards.size() + " cards left");
+			System.out.println("Press Y to play again");
+			System.out.print("Or hit any other key to exit: ");
+			System.out.println("\n==============================================================================");
+			
 			if (deckOfCards.size() == 0) {
 				System.out.println("Sorry please start over ran out of cards");
 				System.exit(0);
